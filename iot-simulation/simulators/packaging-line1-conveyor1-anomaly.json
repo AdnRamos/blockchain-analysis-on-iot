@@ -1,0 +1,16 @@
+{
+  "MQTT_BROKER": {
+    "SERVER_URL":     "mqtt://mosquitto:1883",
+    "CLIENT_ID":      "conveyor1-anomaly",
+    "KEEP_ALIVE":     300,
+    "ROOT_TOPIC":     "plantA/packaging/line1/conveyor1",
+    "QOS":            0,
+    "RETAIN":         false,
+    "SET_DELAY_BETWEEN_MESSAGES":   1,
+    "RANDOMIZE_DELAY_BETWEEN_MESSAGES": "false"
+  },
+  "SIMULATORS": [
+    { "Name": "Proximity/anomaly", "Mean":  1.0, "StandardDeviation": 0.1 },
+    { "Name": "Count/anomaly",     "Mean": 25.0, "StandardDeviation": 5.0 }
+  ]
+}

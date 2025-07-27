@@ -1,0 +1,147 @@
+services:
+  # -------------------- Broker --------------------
+  broker-mosquitto:
+    image: eclipse-mosquitto:2.0
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./broker/:/mosquitto/config/:ro
+    networks:
+      iot-net:
+        aliases:
+          - mosquitto
+    restart: unless-stopped
+
+  # ------------- Simuladores de Telemetria -------------
+  sim-robotArm1:
+    image: amineamaach/sensors-mqtt:v1.0.0
+    volumes:
+      - ./simulators/assembly-line1-robotArm1-data.json:/configs/config.json:ro
+    depends_on:
+      - broker-mosquitto
+    networks:
+      - iot-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 128M
+    restart: unless-stopped
+
+  sim-robotArm2:
+    image: amineamaach/sensors-mqtt:v1.0.0
+    volumes:
+      - ./simulators/assembly-line1-robotArm2-data.json:/configs/config.json:ro
+    depends_on:
+      - broker-mosquitto
+    networks:
+      - iot-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 128M
+    restart: unless-stopped
+
+  sim-conveyor1:
+    image: amineamaach/sensors-mqtt:v1.0.0
+    volumes:
+      - ./simulators/packaging-line1-conveyor1-data.json:/configs/config.json:ro
+    depends_on:
+      - broker-mosquitto
+    networks:
+      - iot-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 128M
+    restart: unless-stopped
+
+  sim-sealer1:
+    image: amineamaach/sensors-mqtt:v1.0.0
+    volumes:
+      - ./simulators/packaging-line1-sealer1-data.json:/configs/config.json:ro
+    depends_on:
+      - broker-mosquitto
+    networks:
+      - iot-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 128M
+    restart: unless-stopped
+
+  # -------------- Simuladores de Anomalia --------------
+  sim-robotArm1-anomaly:
+    image: amineamaach/sensors-mqtt:v1.0.0
+    profiles:
+      - anomaly
+    volumes:
+      - ./simulators/assembly-line1-robotArm1-anomaly.json:/configs/config.json:ro
+    depends_on:
+      - broker-mosquitto
+    networks:
+      - iot-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 128M
+    restart: "no"
+
+  sim-robotArm2-anomaly:
+    image: amineamaach/sensors-mqtt:v1.0.0
+    profiles:
+      - anomaly
+    volumes:
+      - ./simulators/assembly-line1-robotArm2-anomaly.json:/configs/config.json:ro
+    depends_on:
+      - broker-mosquitto
+    networks:
+      - iot-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 128M
+    restart: "no"
+
+  sim-conveyor1-anomaly:
+    image: amineamaach/sensors-mqtt:v1.0.0
+    profiles:
+      - anomaly
+    volumes:
+      - ./simulators/packaging-line1-conveyor1-anomaly.json:/configs/config.json:ro
+    depends_on:
+      - broker-mosquitto
+    networks:
+      - iot-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 128M
+    restart: "no"
+
+  sim-sealer1-anomaly:
+    image: amineamaach/sensors-mqtt:v1.0.0
+    profiles:
+      - anomaly
+    volumes:
+      - ./simulators/packaging-line1-sealer1-anomaly.json:/configs/config.json:ro
+    depends_on:
+      - broker-mosquitto
+    networks:
+      - iot-net
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 128M
+    restart: "no"
+
+networks:
+  iot-net:
+    driver: bridge

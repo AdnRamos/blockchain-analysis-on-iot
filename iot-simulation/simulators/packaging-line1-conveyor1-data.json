@@ -1,0 +1,16 @@
+{
+  "MQTT_BROKER": {
+    "SERVER_URL":     "mqtt://mosquitto:1883",
+    "CLIENT_ID":      "conveyor1-normal",
+    "KEEP_ALIVE":     300,
+    "ROOT_TOPIC":     "plantA/packaging/line1/conveyor1",
+    "QOS":            0,
+    "RETAIN":         false,
+    "SET_DELAY_BETWEEN_MESSAGES":   1,
+    "RANDOMIZE_DELAY_BETWEEN_MESSAGES": "false"
+  },
+  "SIMULATORS": [
+    { "Name": "Proximity/data", "Mean":  0.0, "StandardDeviation": 1.0 },
+    { "Name": "Count/data",     "Mean": 10.0, "StandardDeviation": 2.0 }
+  ]
+}
