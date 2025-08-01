@@ -20,10 +20,10 @@ export function connectMqtt() {
     });
   });
 
-  client.on('message', (topic, payload) => {
+  client.on('message', async (topic, payload) => {
     try {
       const data = JSON.parse(payload.toString());
-      handleMessage(topic, data);
+      await handleMessage(topic, data);
     } catch (err) {
       console.error('❌ Payload inválido:', payload.toString());
     }
