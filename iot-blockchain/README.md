@@ -65,7 +65,7 @@ Para acelerar o processo, você pode usar o comando abaixo, que instala, aprova 
 ```bash
 cd fabric-samples/test-network
 ./network.sh down                      # Garante ambiente limpo
-./network.sh up createChannel -c fabric
+./network.sh up createChannel -c fabric -ca
 ```
 
 > Isso inicializa Orderer, Org1, Org2 e cria o canal "fabric"
