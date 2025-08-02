@@ -1,13 +1,11 @@
-import { HlfProvider } from "./hlfProvider.js";
-
-export async function handleMessage(topic, data) {
+export async function handleMessage(topic, data, hlfProvider) {
   const [plant, area, line, machine, sensor, type] = topic.split('/');
   const value = JSON.stringify(data);
-  await HlfProvider.registerReading(
+  await hlfProvider.registerReading(
     sensor,
     type,
     value,
-    Date.now()
+    new Date().toISOString()
   );
   console.log({
     date: new Date().toISOString(),
