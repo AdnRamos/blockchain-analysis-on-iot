@@ -23,7 +23,7 @@ Antes de iniciar, instale os requisitos do Fabric 2.5:
 Baixe os samples e binários:
 
 ```bash
-cd cd iot-blockchain/test-network
+cd iot-blockchain/test-network
 ./network.sh prereq
 ```
 
@@ -50,6 +50,7 @@ iot-blockchain/
 Para acelerar o processo, você pode usar o comando abaixo, que instala, aprova e comita automaticamente o chaincode no canal `fabric`:
 
 ```bash
+cd iot-blockchain/test-network
 ./network.sh deployCC -ccn iot_contract -ccp ../iot-app/chaincode -ccl javascript -c fabric
 ```
 
@@ -62,7 +63,7 @@ Para acelerar o processo, você pode usar o comando abaixo, que instala, aprova 
 ### 1. Subir a rede com canal personalizado
 
 ```bash
-cd fabric-samples/test-network
+cd iot-blockchain/test-network
 ./network.sh down                      # Garante ambiente limpo
 ./network.sh up createChannel -c fabric -ca
 ```
