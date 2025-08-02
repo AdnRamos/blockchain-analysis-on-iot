@@ -1,24 +1,24 @@
 {
   "MQTT_BROKER": {
     "SERVER_URL": "mqtt://mosquitto:1883",
-    "CLIENT_ID": "robotArm2-anomaly",
+    "CLIENT_ID": "robotArm2-flood",
     "ROOT_TOPIC": "plantA/assembly/line1/robotArm2",
     "QOS": 0,
     "RETAIN": false,
-    "SET_DELAY_BETWEEN_MESSAGES": 0.5,
+    "SET_DELAY_BETWEEN_MESSAGES": 0.01,
     "RANDOMIZE_DELAY_BETWEEN_MESSAGES": "true",
     "KEEP_ALIVE": 60
   },
   "SIMULATORS": [
     {
       "Name": "Temperature/data",
-      "Mean": 90.0,
-      "StandardDeviation": 7.0
+      "Mean": 62.0,
+      "StandardDeviation": 2.5
     },
     {
       "Name": "Vibration/data",
-      "Mean": 30.0,
-      "StandardDeviation": 10.0
+      "Mean": 6.0,
+      "StandardDeviation": 1.0
     }
   ]
 }

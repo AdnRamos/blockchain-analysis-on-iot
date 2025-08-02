@@ -24,19 +24,18 @@ plantA/<area>/<line>/<machine>/<sensorType>/<messageType>
 ```
 iot-simulation/
 ├── broker/
-│   └── mosquitto.conf
+│ └── mosquitto.conf
 ├── simulators/
-│   ├── assembly-line1-robotArm1-data.json
-│   ├── assembly-line1-robotArm1-anomaly.json
-│   ├── assembly-line1-robotArm2-data.json
-│   ├── assembly-line1-robotArm2-anomaly.json
-│   ├── packaging-line1-conveyor1-data.json
-│   ├── packaging-line1-conveyor1-anomaly.json
-│   ├── packaging-line1-sealer1-data.json
-│   └── packaging-line1-sealer1-anomaly.json
-├── anomaly-loop.ps1
-├── anomaly-loop.sh
-└── docker-compose.yml
+│ ├── assembly-line1-robotArm1-data.json
+│ ├── assembly-line1-robotArm2-data.json
+│ ├── packaging-line1-conveyor1-data.json
+│ ├── packaging-line1-sealer1-data.json
+│ ├── ... (outras variações .json)
+├── Dockerfile
+├── requirements.txt
+├── mini_factory_simulator.py
+├── docker-compose.yml
+└── README.md
 ```
 
 ---
@@ -54,7 +53,14 @@ iot-simulation/
 
 ```bash
 docker compose down --volumes
-docker compose up -d
+
+# Configure a taxa de mensagens (20 TPS = 0.05s de delay)
+$env:BROKER_HOST = "broker-mosquitto"
+$env:BROKER_PORT = "1883"
+$env:SET_DELAY_BETWEEN_MESSAGES = "0.05"
+$env:RANDOMIZE_DELAY_BETWEEN_MESSAGES = "false"
+
+docker compose up -d --build
 ```
 
 Sensores normais sobem automaticamente:  
@@ -62,88 +68,37 @@ Sensores normais sobem automaticamente:
 
 ---
 
-### 🔍 2. Ver Telemetria Normal
+### 🔍 2. Ver Telemetria
 
 ```bash
+#Dados gerais
+docker compose up mosquitto-client
+
+#Dados especificos
 docker compose exec broker-mosquitto \
-  mosquitto_sub -h localhost -t "plantA/+/+/+/+/data" -v
+  mosquitto_sub -h localhost -t "plantA/+/+/+/+/{messageType}" -v
 ```
 
 ---
 
-### ⚠️ 3. Injetar Anomalias
-
-#### No **Windows** (PowerShell):
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-.\anomaly-loop.ps1
-```
-
-#### No **Linux/macOS** (Bash):
-
-```bash
-chmod +x anomaly-loop.sh
-./anomaly-loop.sh
-```
-
----
-
-### 🔎 4. Verificar Anomalias
-
-```bash
-docker compose exec broker-mosquitto \
-  mosquitto_sub -h localhost -t "plantA/+/+/+/+/anomaly" -v
-```
-
----
-
-### 🧪 5. Ver Tudo (Data + Anomaly)
-
-```bash
-docker compose exec broker-mosquitto \
-  mosquitto_sub -h localhost -t "plantA/+/+/+/+/#" -v
-```
-
----
-
-### 🛑 6. Parar e Limpar
+### 🛑 5. Parar e Limpar
 
 ```bash
 # Interrompa o script (Ctrl+C)
 docker compose down
 ```
-
----
-
-## 🧩 Executar Sensor Isoladamente
-
-Para subir apenas **um sensor específico**, use:
-
-```bash
-docker compose up -d sim-robotArm1
-docker compose up -d sim-robotArm2
-docker compose up -d sim-conveyor1
-docker compose up -d sim-sealer1
-```
-
-Para iniciar uma **anomalia isolada**:
-
-```bash
-docker compose up -d --no-start sim-robotArm2-anomaly
-docker compose start sim-robotArm2-anomaly
-# Espera alguns segundos...
-docker compose stop sim-robotArm2-anomaly
-```
-
 ---
 
 ## 🔄 Escalabilidade
 
-- Adicione mais sensores editando os arquivos `.json` dentro de `simulators/`
-- Use `--scale` para múltiplas instâncias:
-```bash
-docker compose up -d --scale sim-robotArm1=5 --scale sim-robotArm2=3 --scale sim-conveyor1=4
+- Todos os sensores são lidos a partir dos arquivos .json na pasta simulators/
+- Controle a taxa de mensagens ajustando a variável de ambiente SET_DELAY_BETWEEN_MESSAGES:
+```
+    0.05 = ~20 TPS
+
+    0.02 = ~50 TPS
+
+    0.01 = ~100 TPS
 ```
 
 > Lembre-se: cada instância deve ter `CLIENT_ID` único para evitar desconexões MQTT
@@ -159,29 +114,25 @@ docker compose up -d --scale sim-robotArm1=5 --scale sim-robotArm2=3 --scale sim
 | linha        | `line1`                      |
 | máquina      | `robotArm1`, `conveyor1`     |
 | sensorType   | `Temperature`, `Vibration`…  |
-| messageType  | `data`, `anomaly`            |
+| messageType  | `data`           |
 
 **Exemplos:**
 ```
 plantA/assembly/line1/robotArm1/Temperature/data
-plantA/assembly/line1/robotArm1/Temperature/anomaly
 ```
 
 ---
 
 ## 🛠️ Dicas / Troubleshooting
 
-- **Delay estranho?** → reduza `SET_DELAY_BETWEEN_MESSAGES` nos arquivos JSON e defina `RANDOMIZE_DELAY_BETWEEN_MESSAGES: false`
-- **Erro “unknown flag: --profile”?** → utilize `up --no-start` seguido de `start`, como feito no `anomaly-loop.ps1`
-- **Erro “panic: nil pointer”?** → verifique se `QOS` e `RETAIN` estão definidos nos JSONs (ex: `QOS: 0`, `RETAIN: false`)
-
+- **Não vê mensagens?** → Confira o valor de `ROOT_TOPIC` nos seus JSONs e ajuste o filtro do cliente MQTT.
+- **Erro de conexão?** → Sempre use o nome do serviço docker como hostname MQTT (`broker-mosquitto`)
+- **Delay estranho?** → Ajuste `SET_DELAY_BETWEEN_MESSAGES` e `RANDOMIZE_DELAY_BETWEEN_MESSAGES` nas variáveis de ambiente do Compose.
+- **Adicionar sensores?** → Basta criar novos .json na pasta `simulators/`.
 ---
-
 ## ✅ Resumo
 
-- Simulação completa de Indústria 4.0 com sensores Dockerizados
+- Simulação completa de Indústria 4.0 com sensores Dockerizados e escalabilidade dinâmica
 - Dados em tempo real com Mosquitto + MQTT
-- Controle automatizado de anomalias via PowerShell ou Bash
-- Modular e escalável
-
-Bom uso! 🚀🔧
+- Monitoramento simples via serviço mosquitto-client
+- Modular, fácil de escalar e atualizar

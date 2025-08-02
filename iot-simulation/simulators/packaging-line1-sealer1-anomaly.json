@@ -1,15 +1,19 @@
 {
   "MQTT_BROKER": {
-    "SERVER_URL":     "mqtt://mosquitto:1883",
-    "CLIENT_ID":      "sealer1-anomaly",
-    "KEEP_ALIVE":     300,
-    "ROOT_TOPIC":     "plantA/packaging/line1/sealer1",
-    "QOS":            0,
-    "RETAIN":         false,
-    "SET_DELAY_BETWEEN_MESSAGES":   1,
-    "RANDOMIZE_DELAY_BETWEEN_MESSAGES": "false"
+    "SERVER_URL": "mqtt://mosquitto:1883",
+    "CLIENT_ID": "sealer1-anomaly",
+    "ROOT_TOPIC": "plantA/packaging/line1/sealer1",
+    "QOS": 0,
+    "RETAIN": false,
+    "SET_DELAY_BETWEEN_MESSAGES": 1,
+    "RANDOMIZE_DELAY_BETWEEN_MESSAGES": "true",
+    "KEEP_ALIVE": 60
   },
   "SIMULATORS": [
-    { "Name": "Temperature/anomaly", "Mean": 85.0, "StandardDeviation": 7.0 }
+    {
+      "Name": "Temperature/data",
+      "Mean": 85.0,
+      "StandardDeviation": 5.0
+    }
   ]
 }
