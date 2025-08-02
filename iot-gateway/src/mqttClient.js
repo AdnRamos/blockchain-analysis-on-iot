@@ -6,7 +6,7 @@ dotenv.config();
 const brokerUrl = process.env.MQTT_BROKER_URL;
 const topic     = process.env.MQTT_TOPIC;
 
-export function connectMqtt() {
+export function connectMqtt(hlfProvider) {
   const client = mqtt.connect(brokerUrl, {
     username: process.env.MQTT_USERNAME,
     password: process.env.MQTT_PASSWORD,
@@ -20,10 +20,10 @@ export function connectMqtt() {
     });
   });
 
-  client.on('message', (topic, payload) => {
+  client.on('message', async (topic, payload) => {
     try {
       const data = JSON.parse(payload.toString());
-      handleMessage(topic, data);
+      await handleMessage(topic, data, hlfProvider);
     } catch (err) {
       console.error('❌ Payload inválido:', payload.toString());
     }
