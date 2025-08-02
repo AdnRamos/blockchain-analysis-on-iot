@@ -23,9 +23,8 @@ Antes de iniciar, instale os requisitos do Fabric 2.5:
 Baixe os samples e binários:
 
 ```bash
-git clone https://github.com/hyperledger/fabric-samples.git
-cd fabric-samples
-curl -sSL https://bit.ly/2ysbOFE | bash -s -- 2.5.0 1.5.4
+cd cd iot-blockchain/test-network
+./network.sh prereq
 ```
 
 ---
