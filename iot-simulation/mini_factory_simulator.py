@@ -3,9 +3,9 @@ from pathlib import Path
 import paho.mqtt.client as mqtt
 
 # --- Variáveis de ambiente para controlar o comportamento global ---
-BROKER_HOST = os.getenv('BROKER_HOST', None)
+BROKER_HOST = os.getenv('BROKER_HOST', "broker-mosquitto")
 BROKER_PORT = int(os.getenv('BROKER_PORT', 1883))
-GLOBAL_DELAY = os.getenv('SET_DELAY_BETWEEN_MESSAGES', None)
+GLOBAL_DELAY = os.getenv('SET_DELAY_BETWEEN_MESSAGES', "0.05")
 RANDOMIZE = os.getenv('RANDOMIZE_DELAY_BETWEEN_MESSAGES', 'false').lower() == 'true'
 
 # --- Lê todos os arquivos simuladores que terminam com '-data.json' ---

@@ -7,14 +7,14 @@ export async function handleMessage(topic, data, hlfProvider) {
     value,
     new Date().toISOString()
   );
-  console.log({
-    date: new Date().toISOString(),
-    plant, 
-    area, 
-    line, 
-    machine, 
-    sensor, 
-    type, 
-    value 
-  });
+  // console.log({
+  //   date: new Date().toISOString(),
+  //   plant, 
+  //   area, 
+  //   line, 
+  //   machine, 
+  //   sensor, 
+  //   type, 
+  //   value 
+  // });
 }

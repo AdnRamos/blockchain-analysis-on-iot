@@ -66,7 +66,7 @@ iot-gateway/
 1. **Rodando localmente**:
 
    ```bash
-   npm start
+   docker compose up --build
    ```
 
    * Verifique o log:
@@ -79,6 +79,6 @@ iot-gateway/
 2. **Health check** (caso use HTTP):
 
    ```bash
-   curl http://localhost:3000/health
+   curl http://localhost:3001/health
    # retorna: Gateway OK
    ```
