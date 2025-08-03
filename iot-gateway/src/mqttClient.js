@@ -25,7 +25,8 @@ export function connectMqtt(hlfProvider) {
       const data = JSON.parse(payload.toString());
       await handleMessage(topic, data, hlfProvider);
     } catch (err) {
-      console.error('❌ Payload inválido:', payload.toString());
+      console.error('❌ Erro ao processar mensagem:', err);
+      // console.error('❌ Payload inválido:', payload.toString());
     }
   });
 

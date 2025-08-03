@@ -1,11 +1,11 @@
 {
   "MQTT_BROKER": {
     "SERVER_URL": "mqtt://mosquitto:1883",
-    "CLIENT_ID": "sealer1-data",
+    "CLIENT_ID": "sealer1-flood",
     "ROOT_TOPIC": "plantA/packaging/line1/sealer1",
     "QOS": 0,
     "RETAIN": false,
-    "SET_DELAY_BETWEEN_MESSAGES": 3,
+    "SET_DELAY_BETWEEN_MESSAGES": 0.01,
     "RANDOMIZE_DELAY_BETWEEN_MESSAGES": "true",
     "KEEP_ALIVE": 60
   },

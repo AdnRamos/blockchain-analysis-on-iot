@@ -1,16 +1,24 @@
 {
   "MQTT_BROKER": {
-    "SERVER_URL":     "mqtt://mosquitto:1883",
-    "CLIENT_ID":      "conveyor1-anomaly",
-    "KEEP_ALIVE":     300,
-    "ROOT_TOPIC":     "plantA/packaging/line1/conveyor1",
-    "QOS":            0,
-    "RETAIN":         false,
-    "SET_DELAY_BETWEEN_MESSAGES":   1,
-    "RANDOMIZE_DELAY_BETWEEN_MESSAGES": "false"
+    "SERVER_URL": "mqtt://mosquitto:1883",
+    "CLIENT_ID": "conveyor1-anomaly",
+    "ROOT_TOPIC": "plantA/packaging/line1/conveyor1",
+    "QOS": 0,
+    "RETAIN": false,
+    "SET_DELAY_BETWEEN_MESSAGES": 1,
+    "RANDOMIZE_DELAY_BETWEEN_MESSAGES": "true",
+    "KEEP_ALIVE": 60
   },
   "SIMULATORS": [
-    { "Name": "Proximity/anomaly", "Mean":  1.0, "StandardDeviation": 0.1 },
-    { "Name": "Count/anomaly",     "Mean": 25.0, "StandardDeviation": 5.0 }
+    {
+      "Name": "Proximity/data",
+      "Mean": 1,
+      "StandardDeviation": 0.0
+    },
+    {
+      "Name": "Count/data",
+      "Mean": 25,
+      "StandardDeviation": 5
+    }
   ]
 }

@@ -1,8 +1,11 @@
 services:
   nodeapp:
-    build: .
+    build: 
+      context: ../
+      dockerfile: iot-gateway/Dockerfile
     ports:
       - "3001:3001"
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+      - /usr/src/app/iot-blockchain/test-network/organizations

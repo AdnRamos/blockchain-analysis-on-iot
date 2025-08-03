@@ -3,11 +3,13 @@ FROM node:22
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY iot-gateway/package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY iot-blockchain/test-network/organizations ./iot-blockchain/test-network/organizations
+
+COPY iot-gateway/ .
 
 EXPOSE 3001
 

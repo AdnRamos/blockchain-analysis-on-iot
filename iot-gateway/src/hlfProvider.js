@@ -26,7 +26,6 @@ const cryptoPath = envOrDefault(
     resolve(
         __dirname,
         '..',
-        '..',
         'iot-blockchain',
         'test-network',
         'organizations',
@@ -62,7 +61,7 @@ const tlsCertPath = envOrDefault(
     resolve(cryptoPath, 'peers', 'peer0.org1.example.com', 'tls', 'ca.crt')
 );
 
-const peerEndpoint = envOrDefault('PEER_ENDPOINT', 'localhost:7051');
+const peerEndpoint = envOrDefault('PEER_ENDPOINT', 'host.docker.internal:7051');
 
 const peerHostAlias = envOrDefault('PEER_HOST_ALIAS', 'peer0.org1.example.com');
 
@@ -132,9 +131,9 @@ export class HlfProvider {
     }
 
     async registerReading(sensorId, type, value, timestamp) {
-        console.log(
-            '\n--> Submit Transaction: registerReading'
-        );
+        // console.log(
+        //     '\n--> Submit Transaction: registerReading'
+        // );
         await this.contract.submitTransaction(
             'registerReading',
             sensorId,
@@ -142,7 +141,7 @@ export class HlfProvider {
             value,
             timestamp
         );
-        console.log('*** Transaction committed successfully');
+        // console.log('*** Transaction committed successfully');
     }
 
     async getReadingByKey(key) {
