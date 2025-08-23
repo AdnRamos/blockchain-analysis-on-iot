@@ -520,7 +520,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "avg by (name)(rate(container_cpu_usage_seconds_total{name!~\"cadvisor|node-exporter|grafana|prometheus||\"}[$interval])) * 100",
+          "expr": "avg by (name)(rate(container_cpu_usage_seconds_total{name!~\"cadvisor|node-exporter|grafana|prometheus\"}[$interval])) * 100",
           "hide": false,
           "interval": "",
           "legendFormat": "{{name}}",
@@ -639,7 +639,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "container_memory_usage_bytes{name!~\"cadvisor|node-exporter|grafana|prometheus||\"} - container_memory_cache{name!~\"cadvisor|node-exporter|grafana|prometheus||\"}",
+          "expr": "container_memory_usage_bytes{name!~\"cadvisor|node-exporter|grafana|prometheus\"} - container_memory_cache{name!~\"cadvisor|node-exporter|grafana|prometheus\"}",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -712,7 +712,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "container_memory_usage_bytes{name!~\"prometheus|cadvisor|grafana|node-exporter\", name=~\".+\"} - container_memory_cache{name!~\"prometheus|cadvisor|grafana|node-exporter\", name=~\".+\"}",
+          "expr": "sum by (name) (container_memory_usage_bytes{name!~\"cadvisor|node-exporter|grafana|prometheus\"}) - sum by (name) (container_memory_cache{name!~\"cadvisor|node-exporter|grafana|prometheus\"})",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
@@ -787,7 +787,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "exemplar": true,
-          "expr": "avg by (name)(rate(container_cpu_usage_seconds_total{name!~\"cadvisor|node-exporter|grafana|prometheus||\"}[$interval])) * 100",
+          "expr": "avg by (name)(rate(container_cpu_usage_seconds_total{name!~\"cadvisor|node-exporter|grafana|prometheus\"}[$interval])) * 100",
           "hide": false,
           "interval": "",
           "legendFormat": "{{name}}",
