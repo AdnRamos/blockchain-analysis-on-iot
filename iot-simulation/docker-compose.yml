@@ -16,7 +16,7 @@ services:
     environment:
       BROKER_HOST: "broker-mosquitto"
       BROKER_PORT: "1883"
-      SET_DELAY_BETWEEN_MESSAGES: "0.05"
+      SET_DELAY_BETWEEN_MESSAGES: "0.4"
       RANDOMIZE_DELAY_BETWEEN_MESSAGES: "false"
     networks:
       - iot-net
