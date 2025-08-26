@@ -59,8 +59,8 @@
         "fieldOptions": {
           "calcs": [["lastNotNull"]],
           "defaults": {
-            "unit": "bytes",
-            "decimals": 0
+            "unit": "decbytes",
+            "decimals": 2
           }
         },
         "graphStyles": {
