@@ -8,6 +8,8 @@ services:
     networks:
       - iot-net
     restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.2 
 
   sim-mini-factory:
     build: .
@@ -16,10 +18,12 @@ services:
     environment:
       BROKER_HOST: "broker-mosquitto"
       BROKER_PORT: "1883"
-      SET_DELAY_BETWEEN_MESSAGES: "0.4"
+      SET_DELAY_BETWEEN_MESSAGES: "0.08"
       RANDOMIZE_DELAY_BETWEEN_MESSAGES: "false"
     networks:
       - iot-net
+    mem_limit: 512m
+    cpus: 0.2
 
 
   mosquitto-client:
@@ -29,6 +33,8 @@ services:
       - broker-mosquitto    
     networks:
       - iot-net
+    mem_limit: 512m
+    cpus: 0.2
 
 networks:
   iot-net:

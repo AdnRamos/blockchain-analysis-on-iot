@@ -9,3 +9,5 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/iot-blockchain/test-network/organizations
+    mem_limit: 1024m
+    cpus: 1
