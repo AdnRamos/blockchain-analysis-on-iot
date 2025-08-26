@@ -1,0 +1,157 @@
+{
+  "id": null,
+  "uid": "node-metrics",
+  "title": "Métricas de Node.js",
+  "tags": ["nodejs", "prometheus"],
+  "timezone": "browser",
+  "schemaVersion": 27,
+  "version": 2,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Uso de CPU",
+      "targets": [
+        {
+          "expr": "rate(process_cpu_user_seconds_total[1m]) + rate(process_cpu_system_seconds_total[1m])",
+          "legendFormat": "CPU",
+          "refId": "A"
+        }
+      ],
+      "id": 1,
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "options": {
+        "fieldOptions": {
+          "calcs": [["lastNotNull"]],
+          "defaults": {
+            "unit": "percent",
+            "decimals": 2
+          }
+        },
+        "graphStyles": {
+          "line": {
+            "show": true,
+            "fill": 1,
+            "fillOpacity": 0.3,
+            "lineWidth": 2,
+            "showPoints": "never"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Uso de Memória",
+      "targets": [
+        {
+          "expr": "process_resident_memory_bytes",
+          "legendFormat": "Memória residente",
+          "refId": "A"
+        },
+        {
+          "expr": "nodejs_heap_used_bytes",
+          "legendFormat": "Heap usado",
+          "refId": "B"
+        }
+      ],
+      "id": 2,
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "options": {
+        "fieldOptions": {
+          "calcs": [["lastNotNull"]],
+          "defaults": {
+            "unit": "bytes",
+            "decimals": 0
+          }
+        },
+        "graphStyles": {
+          "line": {
+            "show": true,
+            "fill": 1,
+            "fillOpacity": 0.3,
+            "lineWidth": 2,
+            "showPoints": "never"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "CPU (%)",
+      "targets": [
+        {
+          "expr": "100 * (rate(process_cpu_user_seconds_total[1m]) + rate(process_cpu_system_seconds_total[1m])) / on(instance) group_left() count(node_cpu_seconds_total{mode=\"idle\"}) by (instance)",
+          "legendFormat": "CPU (%) — host-normalizado",
+          "refId": "A"
+        },
+        {
+          "expr": "100 * (rate(process_cpu_user_seconds_total[1m]) + rate(process_cpu_system_seconds_total[1m]))",
+          "legendFormat": "CPU (%) — fallback (por núcleo)",
+          "refId": "B"
+        }
+      ],
+      "id": 3,
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "options": {
+        "fieldOptions": {
+          "calcs": [["lastNotNull"]],
+          "defaults": {
+            "unit": "percent",
+            "decimals": 2
+          }
+        },
+        "graphStyles": {
+          "line": {
+            "show": true,
+            "fill": 1,
+            "fillOpacity": 0.3,
+            "lineWidth": 2,
+            "showPoints": "never"
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Memória (%)",
+      "targets": [
+        {
+          "expr": "100 * process_resident_memory_bytes / (node_memory_MemTotal_bytes or process_resident_memory_bytes)",
+          "legendFormat": "Memória residente (%) — host",
+          "refId": "A"
+        },
+        {
+          "expr": "100 * process_resident_memory_bytes / (container_spec_memory_limit_bytes or process_resident_memory_bytes)",
+          "legendFormat": "Memória residente (%) — limite do container",
+          "refId": "B"
+        },
+        {
+          "expr": "100 * nodejs_heap_used_bytes / (nodejs_heap_total_bytes or nodejs_heap_used_bytes)",
+          "legendFormat": "Heap usado (%) — Node",
+          "refId": "C"
+        }
+      ],
+      "id": 4,
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "options": {
+        "fieldOptions": {
+          "calcs": [["lastNotNull"]],
+          "defaults": {
+            "unit": "percent",
+            "decimals": 2,
+            "min": 0,
+            "max": 100
+          }
+        },
+        "graphStyles": {
+          "line": {
+            "show": true,
+            "fill": 1,
+            "fillOpacity": 0.3,
+            "lineWidth": 2,
+            "showPoints": "never"
+          }
+        }
+      }
+    }
+  ]
+}

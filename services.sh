@@ -56,7 +56,7 @@ case "$1" in
 
         echo "Parando gateway IoT..."
         (
-            cd "$SCRIPT_DIR/iot-gateway" && docker compose down -v
+            cd "$SCRIPT_DIR/iot-gateway" && docker compose down -v --remove-orphans && docker network prune -f
         )
         echo "Gateway IoT parado."
 

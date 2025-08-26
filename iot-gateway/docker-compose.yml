@@ -1,6 +1,6 @@
 services:
-  nodeapp:
-    build: 
+  gateway:
+    build:
       context: ../
       dockerfile: iot-gateway/Dockerfile
     ports:
@@ -9,3 +9,27 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/iot-blockchain/test-network/organizations
+    depends_on:
+      - prometheus-gateway
+      - grafana-gateway
+
+  prometheus-gateway:
+    image: prom/prometheus
+    container_name: prometheus-gateway
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9091:9090"
+
+  grafana-gateway:
+    image: grafana/grafana
+    container_name: grafana-gateway
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/etc/grafana/dashboards
+    ports:
+      - "3002:3000"
