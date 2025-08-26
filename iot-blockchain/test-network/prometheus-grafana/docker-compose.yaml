@@ -18,6 +18,8 @@ services:
       - '--web.console.templates=/usr/share/prometheus/consoles'
     ports:
       - "9090:9090"
+    mem_limit: 512m
+    cpus: 0.4
     
   grafana:
     image: grafana/grafana:8.3.4
@@ -33,6 +35,8 @@ services:
     env_file:
       - ./grafana/config.monitoring
     restart: always
+    mem_limit: 512m
+    cpus: 0.4
 
   cadvisor:
     image: google/cadvisor:latest # gcr.io/cadvisor/cadvisor:latest for ios
@@ -46,6 +50,8 @@ services:
     ports:
       - 8080:8080
     restart: always
+    mem_limit: 512m
+    cpus: 0.4
 
   node-exporter:
     image: prom/node-exporter:v1.3.1
@@ -61,6 +67,8 @@ services:
     ports:
       - 9100:9100
     restart: always
+    mem_limit: 512m
+    cpus: 0.4
 
 networks:
   default:

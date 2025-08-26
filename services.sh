@@ -83,8 +83,8 @@ case "$1" in
         INICIO=$(date "+%Y-%m-%d %H:%M:%S")
         echo "Início: $INICIO"
 
-        echo "Serviços em execução por 5 minutos..."
-        sleep 300  # 5 minutos em segundos
+        echo "Serviços em execução por 70 minutos..."
+        sleep 4200  # 70 minutos em segundos
 
 
         FIM=$(date "+%Y-%m-%d %H:%M:%S")
