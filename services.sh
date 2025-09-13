@@ -54,12 +54,6 @@ case "$1" in
         )
         echo "Sensores parados."
 
-        echo "Parando gateway IoT..."
-        (
-            cd "$SCRIPT_DIR/iot-gateway" && docker compose down -v --remove-orphans && docker network prune -f
-        )
-        echo "Gateway IoT parado."
-
         echo "Todos os serviços foram parados com sucesso."
         ;;
 
@@ -67,6 +61,13 @@ case "$1" in
         echo "Parando rede de blockchain..."
         "$SCRIPT_DIR/iot-blockchain/test-network/network.sh" down
         echo "Rede de blockchain parada."
+
+        echo "Parando gateway IoT..."
+        (
+            cd "$SCRIPT_DIR/iot-gateway" && docker compose down -v --remove-orphans && docker network prune -f
+        )
+        echo "Gateway IoT parado."
+
 
         echo "Parando serviço de monitoramento..."
         (
